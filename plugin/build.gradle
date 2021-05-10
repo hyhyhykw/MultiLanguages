@@ -1,19 +1,22 @@
 apply plugin: 'java-library'
 apply plugin: 'groovy'
 
-if (gradle.useLocal) {
-    apply from: 'local_upload_archive.gradle'
-} else {
-    apply plugin: 'com.github.panpf.bintray-publish'
-}
+//if (gradle.useLocal) {
+//    apply from: 'local_upload_archive.gradle'
+//} else {
+//    apply plugin: 'com.github.panpf.bintray-publish'
+//}
+
+apply plugin: 'com.github.dcendents.android-maven' // 添加这个
+group='com.github.hyhyhykw'	// 指定group，com.github.<用户名>
 
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation gradleApi()
     implementation localGroovy()
-    compileOnly 'com.android.tools.build:gradle:4.1.0'
-    compileOnly 'com.android.tools.build:gradle-api:4.1.0'
+    compileOnly 'com.android.tools.build:gradle:4.2.0'
+    compileOnly 'com.android.tools.build:gradle-api:4.2.0'
     compileOnly 'org.ow2.asm:asm:8.0.1'
     compileOnly 'org.ow2.asm:asm-analysis:8.0.1'
     compileOnly 'org.ow2.asm:asm-commons:8.0.1'
@@ -21,18 +24,23 @@ dependencies {
     compileOnly 'org.ow2.asm:asm-util:8.0.1'
 }
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+//sourceCompatibility = "7"
+//targetCompatibility = "7"
 
 
-if (!gradle.useLocal) {
-    publish {
-        userOrg = 'a10188755550'
-        groupId = 'com.github.jokar'
-        artifactId = 'multi-languages.plugin'
-        publishVersion = "$version"
-        desc = 'android multi language support (support android O+)'
-        website = 'https://github.com/MichaelJokAr/MultiLanguages'
-    }
-}
+//if (!gradle.useLocal) {
+//    publish {
+//        userOrg = 'a10188755550'
+//        groupId = 'com.github.jokar'
+//        artifactId = 'multi-languages.plugin'
+//        publishVersion = "$version"
+//        desc = 'android multi language support (support android O+)'
+//        website = 'https://github.com/MichaelJokAr/MultiLanguages'
+//    }
+//}
 //apply from: 'maven.gradle'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}

@@ -1,16 +1,19 @@
 apply plugin: 'com.android.library'
-if (gradle.useLocal) {
-    apply from: 'local_upload_archive.gradle'
-} else {
-    apply plugin: 'com.github.panpf.bintray-publish'
-}
+//if (gradle.useLocal) {
+//    apply from: 'local_upload_archive.gradle'
+//} else {
+//    apply plugin: 'com.github.panpf.bintray-publish'
+//}
+
+apply plugin: 'com.github.dcendents.android-maven' // 添加这个
+group='com.github.hyhyhykw'	// 指定group，com.github.<用户名>
+
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
     }
@@ -26,15 +29,37 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
+//apply from: "upload-jcenter.gradle"
+//---------------------------------------------
 
+// 指定编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 
-if (!gradle.useLocal) {
-    publish {
-        userOrg = 'a10188755550'
-        groupId = 'com.github.jokar'
-        artifactId = 'multi-languages'
-        publishVersion = "$version"
-        desc = 'android multi language support (support android O+)'
-        website = 'https://github.com/MichaelJokAr/MultiLanguages'
-    }
+// 打包源码
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+
+    archiveClassifier.set('sources')
+//    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError  false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// 制作文档(Javadoc)
+task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+    archiveClassifier.set('javadoc')
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
