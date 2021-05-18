@@ -15,8 +15,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation gradleApi()
     implementation localGroovy()
-    compileOnly 'com.android.tools.build:gradle:4.2.0'
-    compileOnly 'com.android.tools.build:gradle-api:4.2.0'
+    compileOnly 'com.android.tools.build:gradle:4.2.1'
+    compileOnly 'com.android.tools.build:gradle-api:4.2.1'
     compileOnly 'org.ow2.asm:asm:8.0.1'
     compileOnly 'org.ow2.asm:asm-analysis:8.0.1'
     compileOnly 'org.ow2.asm:asm-commons:8.0.1'
