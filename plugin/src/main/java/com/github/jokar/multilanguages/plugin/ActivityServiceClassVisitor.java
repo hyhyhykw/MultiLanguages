@@ -120,7 +120,7 @@ public class ActivityServiceClassVisitor extends ClassNode implements Opcodes {
             //添加attachBaseContext方法
             mLogger.error(String.format("add attach method to %s", name));
             if (isActivity(superClassName)) {
-                MethodVisitorUtil.addActivityAttach(superClassName,mClassWriter);
+                MethodVisitorUtil.addActivityAttach(mClassWriter);
             } else if (isService(superClassName)) {
                 MethodVisitorUtil.addServiceAttach(mClassWriter);
             } else if (isIntentService(superClassName)) {
