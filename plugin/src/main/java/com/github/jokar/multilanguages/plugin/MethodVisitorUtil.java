@@ -23,7 +23,7 @@ public class MethodVisitorUtil {
      *
      * @param cw
      */
-    public static void addActivityAttach(String superClassName,ClassWriter cw) {
+    public static void addActivityAttach(ClassWriter cw) {
         MethodVisitor mv = cw.visitMethod(ACC_PROTECTED, "attachBaseContext",
                 "(Landroid/content/Context;)V",
                 null, null);
@@ -35,18 +35,8 @@ public class MethodVisitorUtil {
         mv.visitMethodInsn(INVOKESTATIC, "com/github/jokar/multilanguages/library/MultiLanguage",
                 "setLocal", "(Landroid/content/Context;)Landroid/content/Context;",
                 false);
-
-        String[] split = superClassName.split("\\.");
-        StringBuilder builder = new StringBuilder();
-        for (String s : split) {
-            builder.append(s).append("/");
-        }
-        builder.substring(0,builder.length()-1);
-
-        mv.visitMethodInsn(INVOKESPECIAL, builder.toString(), "attachBaseContext",
+        mv.visitMethodInsn(INVOKESPECIAL, "android/app/Activity", "attachBaseContext",
                 "(Landroid/content/Context;)V", false);
-//        mv.visitMethodInsn(INVOKESPECIAL, "android/app/Activity", "attachBaseContext",
-//                "(Landroid/content/Context;)V", false);
         Label l1 = new Label();
         mv.visitLabel(l1);
         mv.visitInsn(RETURN);
@@ -57,7 +47,6 @@ public class MethodVisitorUtil {
         mv.visitMaxs(2, 2);
         mv.visitEnd();
     }
-
 
     /**
      * 添加intentService类下的attachBaseContext
