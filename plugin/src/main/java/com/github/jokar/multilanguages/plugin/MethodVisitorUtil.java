@@ -3,7 +3,6 @@ package com.github.jokar.multilanguages.plugin;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
 
 import static org.objectweb.asm.Opcodes.ACC_PROTECTED;
 import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
@@ -24,7 +23,7 @@ public class MethodVisitorUtil {
      *
      * @param cw
      */
-    public static void addActivityAttach(ClassWriter cw) {
+    public static void addActivityAttach(String superClassName,ClassWriter cw) {
         MethodVisitor mv = cw.visitMethod(ACC_PROTECTED, "attachBaseContext",
                 "(Landroid/content/Context;)V",
                 null, null);
@@ -36,8 +35,18 @@ public class MethodVisitorUtil {
         mv.visitMethodInsn(INVOKESTATIC, "com/github/jokar/multilanguages/library/MultiLanguage",
                 "setLocal", "(Landroid/content/Context;)Landroid/content/Context;",
                 false);
-        mv.visitMethodInsn(INVOKESPECIAL, "android/app/Activity", "attachBaseContext",
+
+        String[] split = superClassName.split("\\.");
+        StringBuilder builder = new StringBuilder();
+        for (String s : split) {
+            builder.append(s).append("/");
+        }
+        builder.substring(0,builder.length()-1);
+
+        mv.visitMethodInsn(INVOKESPECIAL, builder.toString(), "attachBaseContext",
                 "(Landroid/content/Context;)V", false);
+//        mv.visitMethodInsn(INVOKESPECIAL, "android/app/Activity", "attachBaseContext",
+//                "(Landroid/content/Context;)V", false);
         Label l1 = new Label();
         mv.visitLabel(l1);
         mv.visitInsn(RETURN);
@@ -48,6 +57,7 @@ public class MethodVisitorUtil {
         mv.visitMaxs(2, 2);
         mv.visitEnd();
     }
+
 
     /**
      * 添加intentService类下的attachBaseContext
