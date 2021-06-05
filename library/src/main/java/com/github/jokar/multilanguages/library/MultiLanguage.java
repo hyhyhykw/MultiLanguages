@@ -21,7 +21,7 @@ public class MultiLanguage {
     }
 
     public static Context setLocal(Context context) {
-        return updateResources(context, getSetLanguageLocale(context));
+        return updateResources(context, getSetLanguageLocale());
     }
 
 
@@ -32,7 +32,7 @@ public class MultiLanguage {
         Resources resources = context.getApplicationContext().getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         Configuration config = resources.getConfiguration();
-        Locale locale = getSetLanguageLocale(context);
+        Locale locale = getSetLanguageLocale();
         config.locale = locale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             LocaleList localeList = new LocaleList(locale);
@@ -57,12 +57,11 @@ public class MultiLanguage {
     /**
      * 获取选择的语言
      *
-     * @param context
      * @return
      */
-    private static Locale getSetLanguageLocale(Context context) {
+    private static Locale getSetLanguageLocale() {
         if (languageLocalListener != null) {
-            return languageLocalListener.getSetLanguageLocale(context);
+            return languageLocalListener.getSetLanguageLocale();
         }
         return Locale.ENGLISH;
     }
@@ -106,10 +105,9 @@ public class MultiLanguage {
 
     /**
      * 获取系统语言
-     * @param context
      * @return
      */
-    public static Locale getSystemLocal(Context context) {
+    public static Locale getSystemLocal() {
         Locale locale;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             locale = LocaleList.getDefault().get(0);

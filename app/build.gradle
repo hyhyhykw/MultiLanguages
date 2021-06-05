@@ -26,13 +26,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    if (gradle.useLocal) {
-        implementation project(':library')
-    } else {
-        implementation  'com.github.hyhyhykw.MultiLanguages:library:1.0.0'
-//        classpath 'com.github.hyhyhykw.MultiLanguages:plugin:1.0.0'
-//        implementation "com.github.jokar:multi-languages:0.1.5"
-    }
+    implementation  'com.github.hyhyhykw.MultiLanguages:library:1.0.0'
 }
 
 //multiLanguages {
